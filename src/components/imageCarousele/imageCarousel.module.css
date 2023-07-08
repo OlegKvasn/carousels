@@ -1,0 +1,126 @@
+.container {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  height: 50%;
+  background-color: #181818;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+.carousel::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
+.carouselItem {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex: 1 0 100%;
+  scroll-snap-align: start; /* при скролінгу центрує контент */
+}
+
+.carouselItem[data-carousel-element="active"] p {
+  opacity: 1;
+  transform: scale(1.1) translateY(-40px);
+}
+
+.carouselItem p {
+  position: absolute;
+  color: #181818;
+  inset: 90% 0 0 0;
+  text-align: center;
+  font-size: 1.5rem;
+  padding-bottom: 2vh;
+  opacity: 0;
+  transition: all 1s ease-in-out;
+}
+
+.responsiveImage {
+  /* width: 50vw; */
+  position: relative;
+  aspect-ratio: 75/40;
+}
+
+.btn {
+  top: 50%;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  transform: rotate(45deg);
+  z-index: 1;
+  cursor: pointer;
+}
+
+.btnLeft {
+  border-left: 4px solid black;
+  border-bottom: 4px solid black;
+  left: 1vw;
+}
+
+.btnRight {
+  border-right: 4px solid black;
+  border-top: 4px solid black;
+  right: 1vw;
+}
+
+.dotsContainer {
+  position: absolute;
+  top: 90%;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  z-index: 1;
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid #808080;
+  cursor: pointer;
+  background: transparent;
+}
+
+.dot[data-dot-element="active"] {
+  background-color: #808080;
+}
+
+@media screen and (max-width: 1023px) {
+  .btn {
+    display: none;
+  }
+}
+
+/* .arrow {
+  opacity: 0%;
+  height: 100%;
+  width: 10%;
+  background: transparent;
+  border: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  font-size: 45px;
+  color: #808080;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.arrow:hover {
+  opacity: 100%;
+  transition: all ease 0.5s;
+}
+
+.arrowRight {
+  right: 17.5%;
+} */
