@@ -1,14 +1,22 @@
 "use client";
 import Image from "next/image";
 import styles from "./imageCarousel.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { log } from "console";
 
 interface Images {
-  url: string;
+  src: string;
   title: string;
 }
-const ImageCarousel = ({ images }: { images: Images[] }) => {
+const ImageCarousel = ({
+  images,
+  autoSlide = true,
+}: {
+  images: Images[];
+  autoSlide?: boolean;
+}) => {
   const carousel = useRef<HTMLDivElement>(null);
+  const timeRef = useRef<NodeJS.Timeout | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const setCarousel = (index: number, delta: number) => {
@@ -19,44 +27,48 @@ const ImageCarousel = ({ images }: { images: Images[] }) => {
     }
   };
 
-  const slideCarousel = (delta: number) => {
-    if (!carousel.current) return;
+  const slideCarousel = useCallback(
+    (delta: number) => {
+      if (!carousel.current) return;
 
-    // const width = carousel.current.offsetWidth;
+      if (currentIndex + delta > images.length - 1) {
+        setCarousel(0, 0);
+        return;
+      } else if (currentIndex + delta < 0) {
+        setCarousel(images.length - 1, 0);
+        return;
+      }
 
-    if (currentIndex + delta > images.length - 1) {
-      // setCurrentIndex(0);
-      // carousel.current.scrollTo(0, 0);
-      // return;
-      setCarousel(0, 0);
-      return;
-    } else if (currentIndex + delta < 0) {
-      // setCurrentIndex(images.length - 1);
-      // carousel.current.scrollTo(width * images.length - 1, 0);
-      // return;
-      setCarousel(images.length - 1, 0);
-      return;
+      setCarousel(currentIndex, delta);
+    },
+    [currentIndex, images.length]
+  );
+
+  useEffect(() => {
+    if (!autoSlide) return;
+
+    if (timeRef.current) {
+      clearTimeout(timeRef.current);
     }
+    timeRef.current = setTimeout(() => {
+      slideCarousel(+1);
+    }, 3000);
+    return () => clearTimeout(timeRef.current as NodeJS.Timeout);
+  }, [slideCarousel, autoSlide]);
 
-    // carousel.current.scrollTo(carousel.current.scrollLeft + width * delta, 0);
-    // setCurrentIndex((currentIndex) => currentIndex + delta);
-    setCarousel(currentIndex, delta);
-  };
+  // const handleScroll = () => {
+  //   if (carousel.current) {
+  //     const container = carousel.current;
+  //     const scrollLeft = container.scrollLeft;
+  //     const offsetWidth = container.offsetWidth;
+
+  //     const calculatedIndex = Math.round(scrollLeft / offsetWidth);
+  //     setCurrentIndex(calculatedIndex);
+  //   }
+  // };
 
   return (
     <div className={styles.container}>
-      {/* <button
-        className={`${styles.arrowLeft} ${styles.arrow}`}
-        // onClick={goToPrevious}
-      >
-        ❰
-      </button>
-      <button
-        className={`${styles.arrowRight} ${styles.arrow}`}
-        // onClick={goToNext}
-      >
-        ❱
-      </button> */}
       <div
         className={`${styles.btnLeft} ${styles.btn}`}
         onClick={() => slideCarousel(-1)}
@@ -65,7 +77,11 @@ const ImageCarousel = ({ images }: { images: Images[] }) => {
         className={`${styles.btnRight} ${styles.btn}`}
         onClick={() => slideCarousel(1)}
       />
-      <div className={styles.carousel} ref={carousel}>
+      <div
+        className={styles.carousel}
+        ref={carousel}
+        // onScroll={handleScroll}
+      >
         {images.map((img, idx: number) => (
           <div
             className={styles.carouselItem}
@@ -75,7 +91,7 @@ const ImageCarousel = ({ images }: { images: Images[] }) => {
             <div className={styles.responsiveImage}>
               <Image
                 alt={img.title}
-                src={img.url}
+                src={img.src}
                 fill
                 objectFit="cover"
                 className={styles.image}

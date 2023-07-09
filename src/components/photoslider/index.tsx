@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./photoslider.module.css";
 
 interface Images {
-  url: string;
+  src: string;
   title: string;
 }
 
@@ -39,7 +39,7 @@ const PhotoSlider = ({
   }, [currentIndex, slides]);
 
   const getSlideBackground = (slideIndex: number) => ({
-    backgroundImage: `url(${slides[slideIndex].url})`,
+    backgroundImage: `url(${slides[slideIndex].src})`,
     width: `${width}px`,
   });
 
