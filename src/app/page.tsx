@@ -2,6 +2,7 @@ import styles from "./page.module.css";
 import PhotoSlider from "@/components/photoslider";
 import ImageCarousel from "@/components/imageCarousele";
 import ReactResponsiveCarousel from "@/components/ReactResponsiveCarousel";
+import ReactSlickCarousel from "@/components/ReactSlickCarousel";
 
 export default function Home() {
   const slides = [
@@ -16,6 +17,7 @@ export default function Home() {
       {/* <PhotoSlider slides={slides} parentWidth={1000} parentHeight={450} />
       <ImageCarousel images={slides} autoSlide={true} /> */}
       <ReactResponsiveCarousel images={slides} />
+      <ReactSlickCarousel images={slides} />
     </main>
   );
 }

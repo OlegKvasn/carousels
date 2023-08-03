@@ -1,0 +1,24 @@
+.responsiveImage {
+  position: relative;
+  aspect-ratio: 75/40;
+}
+
+// .carousel ul:nth-last-child(2) {
+//   display: flex;
+//   justify-content: center;
+// }
+
+.carousel {
+  width: 90vw;
+  max-width: 1000px;
+  // :global(.carousel .slider-wrapper) {
+  //   border-radius: 1%;
+  // }
+  // :global(.thumbs) {
+  //   display: flex;
+  //   justify-content: center;
+  // }
+  // :global(.thumb) {
+  //   border: 3px solid transparent;
+  // }
+}
