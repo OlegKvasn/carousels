@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "commitlint": "commitlint --edit"
   },
   "dependencies": {
     "@types/node": "20.4.0",
@@ -25,6 +26,10 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@types/slick-carousel": "^1.6.37"
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@types/slick-carousel": "^1.6.37",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1"
   }
 }
